@@ -2,4 +2,8 @@ Flask>=2.2.0
 Flask-SQLAlchemy>=3.0.0
 python-dotenv>=1.0.0
 requests>=2.28.0
+<<<<<<< HEAD
 psycopg2-2.9.11
+=======
+psycopg2-2.9.11
+>>>>>>> d2f7c7af01c93a6896ee411af79db39ee5ee08a6
