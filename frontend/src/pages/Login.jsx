@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 export default function Login() {
+  const [activeTab, setActiveTab] = useState('hr');
   return (
     <section className="min-h-[calc(100vh-5rem)] bg-[#F7F8FF] flex items-center justify-center">
       <div className="max-w-7xl w-full mx-auto grid md:grid-cols-2 rounded-3xl shadow-sm border border-gray-200 bg-white overflow-hidden">
@@ -15,10 +16,18 @@ export default function Login() {
 
           {/* Tabs */}
           <div className="flex gap-3 mb-8">
-            <button className="px-4 py-2 rounded-full bg-[#013362] text-white text-sm font-medium shadow-sm">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-full text-sm font-medium shadow-sm transition ${activeTab === 'hr' ? 'bg-[#013362] text-white' : 'border border-gray-300 text-gray-600 hover:border-[#013362] hover:text-[#013362]'}`}
+              onClick={() => setActiveTab('hr')}
+            >
               HR Professionals
             </button>
-            <button className="px-4 py-2 rounded-full border border-gray-300 text-gray-600 hover:border-[#013362] hover:text-[#013362] transition text-sm font-medium">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-full text-sm font-medium shadow-sm transition ${activeTab === 'job' ? 'bg-[#013362] text-white' : 'border border-gray-300 text-gray-600 hover:border-[#013362] hover:text-[#013362]'}`}
+              onClick={() => setActiveTab('job')}
+            >
               Job Seekers
             </button>
           </div>
@@ -26,10 +35,10 @@ export default function Login() {
           {/* Form */}
           <form className="space-y-5">
             <div>
-              <label className="text-sm text-gray-700">Email ID</label>
+              <label className="text-sm text-gray-700">{activeTab === 'hr' ? 'HR Email ID' : 'Job Seeker Email ID'}</label>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={activeTab === 'hr' ? 'Enter your HR email' : 'Enter your job seeker email'}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
               />
             </div>
