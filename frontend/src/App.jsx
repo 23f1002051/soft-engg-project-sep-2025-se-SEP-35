@@ -12,14 +12,12 @@ export default function App() {
     <AuthProvider>
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="p-6">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/chatbot" element={<ChatbotPage />} />
           </Routes>
-        </div>
       </div>
     </AuthProvider>
   )
