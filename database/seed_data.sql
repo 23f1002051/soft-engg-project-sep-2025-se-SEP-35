@@ -1,2 +1,0 @@
-INSERT INTO users (email, name, role) VALUES ('alice@example.com','Alice','recruiter') ON CONFLICT DO NOTHING;
-INSERT INTO jobs (title, description) VALUES ('Software Engineer','Develop features') ON CONFLICT DO NOTHING;

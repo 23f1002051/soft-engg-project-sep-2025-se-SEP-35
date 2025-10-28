@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
+import { register } from '../services/api';
 
 export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    alert(`Registering ${form.email}`);
+    setError('');
+    setSuccess('');
+    try {
+      const res = await register(form);
+      setSuccess(res.message || 'Registration successful!');
+    } catch (err) {
+      setError(err.response?.data?.error || 'Registration failed');
+    }
   };
 
   return (
@@ -23,13 +33,15 @@ export default function Register() {
           </div>
 
         {/* Signup Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleRegister}>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm text-gray-700">First Name</label>
               <input
                 type="text"
+                name="firstName"
                 placeholder="Enter first name"
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
               />
             </div>
@@ -37,7 +49,9 @@ export default function Register() {
               <label className="text-sm text-gray-700">Last Name</label>
               <input
                 type="text"
+                name="lastName"
                 placeholder="Enter last name"
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
               />
             </div>
@@ -48,7 +62,9 @@ export default function Register() {
               <label className="text-sm text-gray-700">Company Name</label>
               <input
                 type="text"
+                name="companyName"
                 placeholder="Enter company name"
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
               />
             </div>
@@ -56,7 +72,9 @@ export default function Register() {
               <label className="text-sm text-gray-700">Work Email</label>
               <input
                 type="email"
+                name="email"
                 placeholder="Enter work email"
+                onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
               />
             </div>
@@ -65,13 +83,13 @@ export default function Register() {
           <div>
             <label className="text-sm text-gray-700">Select Your Role</label>
             <select
+              name="role"
+              onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
             >
               <option value="">Select role</option>
               <option value="hr">HR Professional</option>
-              <option value="recruiter">Recruiter</option>
-              <option value="manager">Hiring Manager</option>
-              <option value="other">Other</option>
+              <option value="recruiter">Job Seekers</option>
             </select>
           </div>
 
@@ -79,7 +97,9 @@ export default function Register() {
             <label className="text-sm text-gray-700">Password</label>
             <input
               type="password"
+              name="password"
               placeholder="Create password"
+              onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
             />
           </div>
@@ -103,6 +123,10 @@ export default function Register() {
               .
             </p>
           </div>
+
+          {/* Error/Success Messages */}
+          {error && <div className="text-red-500 text-sm">{error}</div>}
+          {success && <div className="text-green-600 text-sm">{success}</div>}
 
           {/* Submit Button */}
           <button

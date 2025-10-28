@@ -1,7 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { login, setToken } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [activeTab, setActiveTab] = useState('hr');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    try {
+      const res = await login(email, password);
+      // Check role match
+      if ((activeTab === 'hr' && res.role !== 'hr') || (activeTab === 'job' && res.role !== 'recruiter')) {
+        setError('You are trying to login from the wrong tab.');
+        return;
+      }
+      if (res.token) setToken(res.token);
+      if (res.role === 'hr') {
+        navigate('/dashboard-hr');
+      } else if (res.role === 'recruiter') {
+        navigate('/dashboard-job');
+      }
+    } catch (err) {
+      setError(err.response?.data?.error || 'Login failed');
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    // Redirect to backend Google login endpoint
+    window.location.href = `/api/auth/google-login?role=${activeTab === 'hr' ? 'hr' : 'recruiter'}`;
+  };
+
   return (
     <section className="min-h-[calc(100vh-5rem)] bg-[#F7F8FF] flex items-center justify-center">
       <div className="max-w-7xl w-full mx-auto grid md:grid-cols-2 rounded-3xl shadow-sm border border-gray-200 bg-white overflow-hidden">
@@ -33,13 +66,15 @@ export default function Login() {
           </div>
 
           {/* Form */}
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label className="text-sm text-gray-700">{activeTab === 'hr' ? 'HR Email ID' : 'Job Seeker Email ID'}</label>
               <input
                 type="email"
                 placeholder={activeTab === 'hr' ? 'Enter your HR email' : 'Enter your job seeker email'}
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
             </div>
 
@@ -49,6 +84,8 @@ export default function Login() {
                 type="password"
                 placeholder="Enter your password"
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#005193]"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
             </div>
 
@@ -61,6 +98,8 @@ export default function Login() {
                 Forgot password?
               </a>
             </div>
+
+            {error && <div className="text-red-500 text-sm">{error}</div>}
 
             <button
               type="submit"
@@ -78,13 +117,17 @@ export default function Login() {
           </div>
 
           {/* Social Buttons */}
-          <button className="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-3 text-title-l font-medium hover:bg-gray-50">
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-3 text-title-l font-medium hover:bg-gray-50"
+          >
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="Google"
               className="w-5 h-5"
             />
-            Google
+            Sign in with Google
           </button>
 
           <p className="text-center text-sm text-gray-500 mt-6">
