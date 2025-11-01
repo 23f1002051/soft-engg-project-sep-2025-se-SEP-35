@@ -28,6 +28,7 @@ def init_oauth(app):
 def ping():
     return jsonify({'msg': 'auth ok'})
 
+#register page
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.json
