@@ -109,3 +109,26 @@ def google_register():
         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
     }, current_app.config['SECRET_KEY'], algorithm='HS256')
     return jsonify({'message': 'Google registration successful', 'token': jwt_token, 'role': user.role}), 201
+
+# Get current user info from JWT
+@auth_bp.route('/me', methods=['GET'])
+def get_current_user():
+    auth_header = request.headers.get('Authorization', None)
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return jsonify({'error': 'Missing or invalid token'}), 401
+    token = auth_header.split(' ')[1]
+    try:
+        payload = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
+        user = User.query.get(payload.get('user_id'))
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        return jsonify({
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'company_name': user.company_name,
+            'email': user.email,
+            'role': user.role
+        })
+    except Exception as e:
+        return jsonify({'error': 'Invalid token'}), 401
