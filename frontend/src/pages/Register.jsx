@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { register } from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
+import {Users} from "lucide-react";
 
 export default function Register() {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -27,8 +28,10 @@ export default function Register() {
       <div className="flex items-center justify-between h-20 rounded-3xl bg-white shadow px-6">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <img src="/favicon.ico" alt="HIREHERO" className="h-10 w-auto" />
-          <span className="text-2xl font-bold text-[#013362]">HIREHERO</span>
+            <div className="bg-gradient-to-r from-[#013362] to-[#005193] text-white rounded-xl p-3 shadow-md flex items-center justify-center">
+              <Users className="h-6 w-6" />
+            </div>
+            <h2 className="text-2xl font-extrabold text-[#013362] tracking-tight ml-2">HireHero</h2>
         </Link>
 
         {/* Actions */}
@@ -55,10 +58,11 @@ export default function Register() {
         {/* ===== Left: Register Form ===== */}
         <section className="p-10 flex flex-col justify-center">
           {/* Header */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold text-[#013362] flex items-center gap-2">
-              <img src="/favicon.ico" alt="HIREHERO" className="w-8" /> Join HireHero
-            </h1>
+          <div className="flex items-center gap-2 mb-10">
+            <div className="bg-gradient-to-r from-[#013362] to-[#005193] text-white rounded-xl p-3 shadow-md flex items-center justify-center">
+              <Users className="h-6 w-6" />
+            </div>
+            <h2 className="text-2xl font-extrabold text-[#013362] tracking-tight ml-2">Join HireHero</h2>
           </div>
 
         {/* Signup Form */}
