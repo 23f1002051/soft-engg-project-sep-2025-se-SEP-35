@@ -1,7 +1,7 @@
 # 🧠 Recruitment System
 
-A full-stack Recruitment Management Platform built with **React (Vite)**, **Flask**, and **PostgreSQL**.  
-It streamlines recruitment workflows — from job posting, candidate tracking, and resume–JD matching,  
+A full-stack Recruitment Management Platform built with **React (Vite)**, **Flask**, and **PostgreSQL**.
+It streamlines recruitment workflows — from job posting, candidate tracking, and resume–JD matching,
 to AI-driven insights and chatbot assistance using **Google Gemini API**.
 
 ---
@@ -111,7 +111,7 @@ npm run dev
 
 Frontend runs at 👉 **http://localhost:3000**
 
-The Vite proxy is already configured to forward all API calls from  
+The Vite proxy is already configured to forward all API calls from
 `/api/*` → **http://localhost:5000/api/** (Flask backend).
 
 ---
@@ -171,7 +171,8 @@ setReply(res.data.reply)
 ---
 
 ## 🧑‍💻 Contributors
-- **Ayush Kumar** – Lead Developer / Architect  
+- **Punit Kumar** - Project Manager
+- **Ayush Kumar** – Lead Developer / Architect
 - **ChatGPT (AI Dev Assistant)** – Project Scaffolding & Boilerplate
 
 ---
