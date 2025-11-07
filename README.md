@@ -171,19 +171,13 @@ setReply(res.data.reply)
 ---
 
 ## 🧑‍💻 Contributors
-<<<<<<< HEAD
+- **Punit Kumar (23f1002051)** - Project Manager
 - **Ayush Kumar (21f1002770)** – Lead Developer
 - **Geethanjaly MT (21f1006940)**
 - **Laxmi Narayan (21f1003804)**
 - **Poornesh Rajeevamu U (21f1001683)**
 - **Pranav Joshi (22f3003006)**
 - **Praneet R (21f1003420)**
-- **Punit Kumar (23f1002051)**
 - **Siddhi Ganesh (21f1000100)**
-=======
-- **Punit Kumar** - Project Manager
-- **Ayush Kumar** – Lead Developer / Architect
-- **ChatGPT (AI Dev Assistant)** – Project Scaffolding & Boilerplate
->>>>>>> dc438ecb8bb8f9d8f4d28cf9aec767f34585b905
 
 ---
