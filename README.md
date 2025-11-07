@@ -171,7 +171,13 @@ setReply(res.data.reply)
 ---
 
 ## 🧑‍💻 Contributors
-- **Ayush Kumar** – Lead Developer / Architect  
-- **ChatGPT (AI Dev Assistant)** – Project Scaffolding & Boilerplate
+- **Ayush Kumar (21f1002770)** – Lead Developer
+- **Geethanjaly MT (21f1006940)**
+- **Laxmi Narayan (21f1003804)**
+- **Poornesh Rajeevamu U (21f1001683)**
+- **Pranav Joshi (22f3003006)**
+- **Praneet R (21f1003420)**
+- **Punit Kumar (23f1002051)**
+- **Siddhi Ganesh (21f1000100)**
 
 ---
