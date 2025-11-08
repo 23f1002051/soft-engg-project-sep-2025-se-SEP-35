@@ -19,6 +19,7 @@ def create_app():
     # Initialize OAuth
     init_oauth(app)
 
+    # Initialize health func
     @app.route('/api/health')
     def health():
         return jsonify({'status':'ok'})

@@ -64,7 +64,7 @@ const HRGenAI = ({ onNewChat }) => {
         {activeTab === "dashboard" && (
           <div className="p-8 flex flex-col gap-6">
             <h2 className="text-2xl font-extrabold text-[#013362] mb-6">Welcome to the HR Dashboard</h2>
-            {/* You can add dashboard widgets or summary cards here */}
+            {/* You can add dashboard widgets or summary cards */}
           </div>
         )}
         {activeTab === "employees" && <EmployeesTab />}
