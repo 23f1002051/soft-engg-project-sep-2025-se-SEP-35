@@ -6,4 +6,12 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
+    company = db.Column(db.String(120))
+    location = db.Column(db.String(120))
+    type = db.Column(db.String(50))
+    salary = db.Column(db.String(50))
+    tags = db.Column(db.String(255))  # comma-separated tags
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    posted_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    posted_by_user = db.relationship('User', back_populates='jobs_posted')
+    applications = db.relationship('Application', back_populates='job', cascade='all, delete-orphan')

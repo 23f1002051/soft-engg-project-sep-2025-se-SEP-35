@@ -33,8 +33,12 @@ def register():
     data = request.json
     if User.query.filter_by(email=data.get('email')).first():
         return jsonify({'error': 'Email already exists'}), 400
+    if not data.get('phone'):
+        return jsonify({'error': 'Phone number is required'}), 400
+    first_name = data.get('firstName')
+    phone = data.get('phone')
     user = User(
-        first_name=data.get('firstName'),
+        first_name=first_name,
         last_name=data.get('lastName'),
         company_name=data.get('companyName'),
         email=data.get('email'),
@@ -43,19 +47,33 @@ def register():
     user.set_password(data.get('password'))
     db.session.add(user)
     db.session.commit()
-    return jsonify({'message': 'User registered successfully'}), 201
+    # Create profile for user
+    from app.models.profile import Profile
+    profile = Profile(user_id=user.id, phone=phone)
+    db.session.add(profile)
+    db.session.commit()
+    # Compose user_id as firstname+last 3 digits of phone
+    phone_digits = ''.join(filter(str.isdigit, phone))
+    user_id = f"{first_name}{phone_digits[-3:]}" if len(phone_digits) >= 3 else f"{first_name}{phone_digits}"
+    return jsonify({'message': 'User registered successfully', 'user_id': user_id}), 201
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.json
     user = User.query.filter_by(email=data.get('email')).first()
     if user and user.check_password(data.get('password')):
+        # Get phone from profile
+        profile = user.profile
+        phone = profile.phone if profile else ''
+        first_name = user.first_name
+        phone_digits = ''.join(filter(str.isdigit, phone))
+        user_id = f"{first_name}{phone_digits[-3:]}" if len(phone_digits) >= 3 else f"{first_name}{phone_digits}"
         token = jwt.encode({
             'user_id': user.id,
             'role': user.role,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
         }, current_app.config['SECRET_KEY'], algorithm='HS256')
-        return jsonify({'message': 'Login successful', 'token': token, 'role': user.role}), 200
+        return jsonify({'message': 'Login successful', 'token': token, 'role': user.role, 'user_id': user_id}), 200
     return jsonify({'error': 'Invalid credentials'}), 401
 
 @auth_bp.route('/google-login')
