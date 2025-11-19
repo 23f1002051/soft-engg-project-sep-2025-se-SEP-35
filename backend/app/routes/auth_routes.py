@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, redirect, url_for, session
 from app.models.user import User
+from app.models.employee import Employee
 from app import db
 import jwt
 import datetime
@@ -55,7 +56,7 @@ def register():
     # Compose user_id as firstname+last 3 digits of phone
     phone_digits = ''.join(filter(str.isdigit, phone))
     user_id = f"{first_name}{phone_digits[-3:]}" if len(phone_digits) >= 3 else f"{first_name}{phone_digits}"
-    return jsonify({'message': 'User registered successfully', 'user_id': user_id}), 201
+    return jsonify({'message': 'User registered successfully', 'user_id': user_id, 'id': user.id}), 201
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
@@ -73,8 +74,38 @@ def login():
             'role': user.role,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
         }, current_app.config['SECRET_KEY'], algorithm='HS256')
-        return jsonify({'message': 'Login successful', 'token': token, 'role': user.role, 'user_id': user_id}), 200
+        return jsonify({'message': 'Login successful', 'token': token, 'role': user.role, 'user_id': user_id, 'id': user.id}), 200
     return jsonify({'error': 'Invalid credentials'}), 401
+
+@auth_bp.route('/change-password', methods=['PUT'])
+def change_password():
+    # Verify Token
+    auth_header = request.headers.get('Authorization', None)
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return jsonify({'error': 'Missing or invalid token'}), 401
+    token = auth_header.split(' ')[1]
+    try:
+        payload = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
+        user = User.query.get(payload.get('user_id'))
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+    except Exception:
+        return jsonify({'error': 'Invalid token'}), 401
+
+    data = request.json
+    current_password = data.get('current_password')
+    new_password = data.get('new_password')
+
+    if not current_password or not new_password:
+        return jsonify({'error': 'Current and new passwords are required'}), 400
+
+    if not user.check_password(current_password):
+        return jsonify({'error': 'Incorrect current password'}), 400
+
+    user.set_password(new_password)
+    db.session.commit()
+
+    return jsonify({'message': 'Password updated successfully'}), 200
 
 @auth_bp.route('/google-login')
 def google_login():
@@ -150,3 +181,26 @@ def get_current_user():
         })
     except Exception as e:
         return jsonify({'error': 'Invalid token'}), 401
+    
+
+@auth_bp.route('/users/basic', methods=['GET'])
+def get_users_basic():
+    # Only fetch users with role 'candidate'
+    users = User.query.filter_by(role='candidate').all()
+    result = []
+    for user in users:
+        phone = ''
+        if user.profile:
+            phone = user.profile.phone or ''
+        # Find employee record by querying Employee table directly
+        employee = Employee.query.filter_by(user_id=str(user.id)).first()
+        employee_id = employee.id if employee else None
+        result.append({
+            'id': user.id,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'phone': phone,
+            'employee_id': employee_id
+        })
+    return jsonify(result)
