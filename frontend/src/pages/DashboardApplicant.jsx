@@ -1,5 +1,9 @@
 import React from 'react';
 import TopNavbarApplicant from "../components/TopNavbarApplicant";
+import JobSearch from '../components/JobSearch';
+import MyApplications from '../components/MyApplications';
+import Chatbot from '../components/Chatbot';
+import ProfileApplicant from '../components/ProfileApplicant';
 import { Briefcase, Send, Eye, Users, Sparkles, FileText, User, BarChart2, Download, Mail, Calendar, UserCheck } from "lucide-react";
 
 export default function DashboardApplicant() {
@@ -68,7 +72,7 @@ export default function DashboardApplicant() {
     <section className="min-h-screen flex flex-col bg-gradient-to-br from-[#F7F8FF] via-[#e3e9ff] to-[#dbeafe] font-inter">
       <TopNavbarApplicant activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="flex-1 p-8 flex flex-col gap-6">
-        {activeTab === "dashboard" && (
+  {activeTab === "dashboard" && (
           <>
             <div className="flex items-center mb-2">
               <h1 className="text-2xl font-extrabold text-[#013362]">
@@ -121,7 +125,7 @@ export default function DashboardApplicant() {
                           {job.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="bg-blue-100 text-[#2563eb] text-xs px-3 py-1 rounded-full border border-blue-200 font-medium"
+                              className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-md"
                               style={{ marginBottom: '2px' }}
                             >
                               {tag}
@@ -188,19 +192,11 @@ export default function DashboardApplicant() {
             </div>
           </>
         )}
-        {/* Placeholder content for other tabs */}
-        {activeTab === "jobs" && (
-          <div className="flex-1 flex items-center justify-center text-2xl text-gray-400 font-semibold">Jobs tab content coming soon...</div>
-        )}
-        {activeTab === "applications" && (
-          <div className="flex-1 flex items-center justify-center text-2xl text-gray-400 font-semibold">Applications tab content coming soon...</div>
-        )}
-        {activeTab === "profile" && (
-          <div className="flex-1 flex items-center justify-center text-2xl text-gray-400 font-semibold">Profile tab content coming soon...</div>
-        )}
-        {activeTab === "chat" && (
-          <div className="flex-1 flex items-center justify-center text-2xl text-gray-400 font-semibold">Chat tab content coming soon...</div>
-        )}
+        {/* Tab content for other tabs */}
+        {activeTab === "jobs" && <JobSearch />}
+        {activeTab === "applications" && <MyApplications />}
+        {activeTab === "profile" && <ProfileApplicant />}
+        {activeTab === "chat" && <Chatbot />}
       </main>
     </section>
   );
