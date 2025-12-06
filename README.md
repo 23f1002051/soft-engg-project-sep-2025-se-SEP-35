@@ -173,7 +173,7 @@ setReply(res.data.reply)
 ## 🧑‍💻 Contributors
 - **Punit Kumar (23f1002051)** - Project Manager
 - **Ayush Kumar (21f1002770)** – Lead Developer
-- **Geethanjaly MT (21f1006940)**
+- **Geethanjaly MT (21f1006940)** - Developer and Documentation 
 - **Laxmi Narayan (21f1003804)**
 - **Poornesh Rajeevamu U (21f1001683)**
 - **Pranav Joshi (22f3003006)**
