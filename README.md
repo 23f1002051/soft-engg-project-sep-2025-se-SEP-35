@@ -171,13 +171,13 @@ setReply(res.data.reply)
 ---
 
 ## 🧑‍💻 Contributors
-- **Punit Kumar (23f1002051)** - Project Manager
+- **Punit Kumar (23f1002051)** - Project Manager and Scrum Master
 - **Ayush Kumar (21f1002770)** – Lead Developer
-- **Geethanjaly MT (21f1006940)** - Backend developer
-- **Laxmi Narayan (21f1003804)** - Documentation and backend developer
-- **Poornesh Rajeevamu U (21f1001683)** - Documentation and tester
-- **Pranav Joshi (22f3003006)** - Frontend developer
-- **Praneet R (21f1003420)** - Backend developer
+- **Geethanjaly MT (21f1006940)** - Documentation and Backend developer
+- **Laxmi Narayan (21f1003804)** - GenAI Integration and Tester
+- **Poornesh Rajeevamu U (21f1001683)** - GenAI Integration
+- **Pranav Joshi (22f3003006)** - Frontend Developer
+- **Praneet R (21f1003420)** - Backend Developer
 - **Siddhi Ganesh (21f1000100)** - Backend developer
 
 ---
